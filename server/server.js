@@ -1,5 +1,3 @@
-
-
 import express from 'express';
 import "dotenv/config";
 import mongoose from 'mongoose';
@@ -44,7 +42,8 @@ io.on("connection", (socket) => {
 
 // middleware setup 
 app.use(express.json({ limit: "4mb" }));
-app.use(cors());
+// Configure CORS to allow requests from your frontend domain
+app.use(cors({ origin: 'https://chat-app-2-eta.vercel.app' }));
 
 // routes 
 app.use("/api/status", (req, res) => res.send("Server is running"));
