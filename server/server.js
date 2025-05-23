@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 // middleware setup 
 app.use(express.json({ limit: "4mb" }));
 // Configure CORS to allow requests from your frontend domain
-app.use(cors({ origin: 'https://chat-app-2-eta.vercel.app' }));
+app.use(cors({ origin: 'https://chat-app-2-jj1fdxeu6-khaleds-projects-abf08b05.vercel.app' }));
 
 // routes 
 app.use("/api/status", (req, res) => res.send("Server is running"));
