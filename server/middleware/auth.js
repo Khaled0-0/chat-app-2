@@ -11,6 +11,19 @@ export const protectRoute = async (req, res, next) => {
       }
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      console.log('Decoded userId before User.findById:', decoded.userId);
+
+      // Add check for valid userId in decoded token
+      if (!decoded.userId || typeof decoded.userId !== 'string') {
+         return res.status(401).json({ success: false, message: "Invalid token payload: userId missing or invalid type" });
+      }
+
+      // Explicitly check if userId is the string "undefined"
+      if (decoded.userId === 'undefined') {
+         return res.status(401).json({ success: false, message: "Invalid token payload: userId is the string \"undefined\"" });
+      }
+
       const user = await User.findById(decoded.userId).select('-password');
 
       if (!user) {
