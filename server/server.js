@@ -42,8 +42,27 @@ io.on("connection", (socket) => {
 
 // middleware setup 
 app.use(express.json({ limit: "4mb" }));
-// Configure CORS to allow requests from your frontend domain
-app.use(cors({ origin: process.env.NODE_ENV !== "production" ? "http://localhost:5173" : ["https://chat-app-2-ogodycnlh-khaleds-projects-abf08b05.vercel.app", "https://chat-app-2-eta.vercel.app", 'https://chat-app-2-jme3q3n8f-khaleds-projects-abf08b05.vercel.app'] }));
+// Configure CORS to allow requests from your frontend domain dynamically for Vercel previews
+app.use(cors({
+   origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      // Allow localhost for development
+      if (process.env.NODE_ENV !== "production" && origin === "http://localhost:5173") {
+         return callback(null, true);
+      }
+
+      // Allow any origin ending with .vercel.app in production (for Vercel previews)
+      if (process.env.NODE_ENV === "production" && origin.endsWith(".vercel.app")) {
+         // You might want to add your specific production domain here as well when ready
+         return callback(null, true);
+      }
+
+      // Otherwise, reject the origin
+      callback(new Error('Not allowed by CORS'));
+   }
+}));
 
 // routes 
 app.use("/api/status", (req, res) => res.send("Server is running"));
