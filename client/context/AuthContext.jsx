@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
    // check if user is authenticated and if so, set the user data and connect the socket
    const checkAuth = async () => {
       try {
-         // console.log("Current headers:", axios.defaults.headers.common["token"]);
+         console.log("Token before /api/auth/check request:", token);
          const { data } = await axios.get('/api/auth/check');
          if (data.success) {
             setAuthUser(data.user);
