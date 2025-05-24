@@ -49,6 +49,10 @@ export const ChatProvider = ({ children }) => {
    // function to send messages for selected user
    const sendMessage = async (messageData) => {
       try {
+         if (!selectedUser || !selectedUser._id) {
+            console.error("No selected user or user ID available to send message.");
+            return; // Prevent sending if no user is selected
+         }
          const { data } = await axios.post(`/api/messages/send/${selectedUser._id}`, messageData);
          if (data.success) {
             setMessages((prevMessages) => [...prevMessages, data.newMessage]);

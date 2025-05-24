@@ -76,8 +76,8 @@ export const sendMessage = async (req, res) => {
       }
       const senderId = req.user._id;
 
-      console.log('req.user in sendMessage:', req.user);
-      console.log('req.user._id in sendMessage:', req.user._id);
+      console.log('Type of senderId before Message.create:', typeof senderId);
+      console.log('Value of senderId before Message.create:', senderId);
 
       let imageUrl;
       if (image) {
